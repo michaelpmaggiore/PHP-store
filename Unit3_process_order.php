@@ -87,47 +87,52 @@
         $result = printOrders($conn); 
         if ($result):
             foreach($result as $row):
-                $db_timestamp
+                $db_timestamp = $row[7];
+                if ($db_timestamp != $timestamp):
+                    
 
-        addOrder($conn,$product,$customer_id,$quantity,$product_price,$tax,$donation,$timestamp);
-        
-        $result = getProduct($conn, $product);
-        $row = mysqli_fetch_row($result);
-        $phone_name = $row[1];
-        $old_quantity = $row[4];
+                    addOrder($conn,$product,$customer_id,$quantity,$product_price,$tax,$donation,$timestamp);
+                    
+                    $result = getProduct($conn, $product);
+                    $row = mysqli_fetch_row($result);
+                    $phone_name = $row[1];
+                    $old_quantity = $row[4];
 
-        if ($result && ($old_quantity - $quantity >= 0)): 
-            sellProduct($conn, $quantity, $product);
-            ?>
+                    if ($result && ($old_quantity - $quantity >= 0)): 
+                        sellProduct($conn, $quantity, $product);
+                        ?>
 
-        <?php else:
-            sellProduct($conn, $old_quantity, $product);
-            ?>
-        <?php endif;
+                    <?php else:
+                        sellProduct($conn, $old_quantity, $product);
+                        ?>
+                    <?php endif;
 
-        ?>
+                    ?>
 
-        <p><strong>Hello <?php echo $first_name; ?> <?php echo $last_name; ?> - </strong><?php echo $msg; ?></p>
-        <p>We hope you enjoy your <?php echo $product_name; ?> puzzle!</p>
-        <br>
-        <p><u> Order details: </u></p>
-        <p><?php echo $quantity; ?> @ $<?php echo $product_price; ?>: $<?php echo $subtotal; ?></p>
-        <p>Tax (<?php echo $tax_rate * 100; ?>%): $<?php echo $tax; ?></p>
+                    <p><strong>Hello <?php echo $first_name; ?> <?php echo $last_name; ?> - </strong><?php echo $msg; ?></p>
+                    <p>We hope you enjoy your <?php echo $product_name; ?> puzzle!</p>
+                    <br>
+                    <p><u> Order details: </u></p>
+                    <p><?php echo $quantity; ?> @ $<?php echo $product_price; ?>: $<?php echo $subtotal; ?></p>
+                    <p>Tax (<?php echo $tax_rate * 100; ?>%): $<?php echo $tax; ?></p>
 
-        <?php
-            if ($donation === 'yes'):
-            ?>
-                <p><strong>Subtotal:</strong> $<?php echo $total; ?></p>
-                <p><strong>Total with donation:</strong> $<?php echo $rounded_total; ?></p>
+                    <?php
+                        if ($donation === 'yes'):
+                        ?>
+                            <p><strong>Subtotal:</strong> $<?php echo $total; ?></p>
+                            <p><strong>Total with donation:</strong> $<?php echo $rounded_total; ?></p>
 
-            <?php else: 
-                $rounded_total = $total;
-                ?>
-                <p><strong>Total:</strong> $<?php echo $rounded_total; ?></p>
-            <?php endif;
-            ?>
-        <br>
-        <p>We'll send special offers to <?php echo $email; ?></p>
+                        <?php else: 
+                            $rounded_total = $total;
+                            ?>
+                            <p><strong>Total:</strong> $<?php echo $rounded_total; ?></p>
+                        <?php endif;
+                        ?>
+                    <br>
+                    <p>We'll send special offers to <?php echo $email; ?></p>
+                <?php endif ?>
+            <?php endforeach ?>
+        <?php endif ?>
 
     </main>
     <?php include 'Unit3_footer.php'; ?>
