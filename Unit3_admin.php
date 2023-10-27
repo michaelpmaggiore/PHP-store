@@ -58,14 +58,52 @@ date_default_timezone_set("America/Denver");
                     $count = 0;
 
                     $row = mysqli_fetch_row($result);
-                    if ($result && ($row[0] != 0)):
+                    if ($result && ($row[0] != 0)): ?>
                         
+                        <table>
+                        <tr>
+                            <th>Customer</th>
+                            <th>Phone</th>
+                            <th>Date</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Tax</th>
+                            <th>Donation</th>
+                            <th>Total</th>
+    
+                        </tr>
+                        <?php 
+                        $result = printOrders($conn); 
+                        if ($result): ?>
+                            <?php foreach($result as $row): 
+                            $product_id = $row['product_id'];
+                            $customer_id = $row['customer_id'];
+    
+                            $product_name = getProduct($conn, $product_id);
+                            $row2 = mysqli_fetch_row($product_name);
+    
+                            $actual_product_name = $row2[1];                        
+    
+                            $customer_name = findCustomerByID($conn, $customer_id);
+                                $row3 = mysqli_fetch_row($customer_name);
+    
+                                $first_name = $row3[1];
+                                $last_name = $row3[2];
+                                ?>
+                            <tr>
+                                <td><?= strval($first_name) ?> <?= strval($last_name) ?></td>
+                                <td><?= $actual_product_name ?></td>
+                                <td><?= date("m/d/y h:i A", $row['timestamp']) ?></td>
+                                <td><?= $row['quantity'] ?></td>            
+                                <td><?= $row['price'] ?></td>            
+                                <td><?= $row['tax'] ?></td>            
+                                <td><?= $row['donation'] ?></td>            
+                                <td><?= number_format($row['quantity']*$row['price'] + $row['tax'] + $row['donation'], 2) ?></td>            
+                            </tr>
 
-                        if ($row) {
-                            $count = $row[0];
-                        }
-                        ?>
-                        <td>Number of orders: <?= strval($count) ?></td>
+                            <?php endforeach ?>
+                        <?php endif ?>
+                        </table>
 
                     <?php else: ?>
                         <tr>

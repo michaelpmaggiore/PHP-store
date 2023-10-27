@@ -15,7 +15,7 @@
         <a href="Unit3_store.php">Phones</a>
         <a href="Unit3_store.php">Phone Services</a>
         <div class="topnav-right">
-            <a href="Unit3_dbQueries.php">Admin</a>
+            <a href="Unit3_admin.php">Admin</a>
         </div>
     </nav>
     <header>
