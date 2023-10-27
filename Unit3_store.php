@@ -49,11 +49,11 @@ date_default_timezone_set("America/Denver");
 
             <input type="hidden" name="timestamp" value="<?php echo time(); ?>">
 
-            <label>Round up for donation</label>
-            <input type="radio" id="donation_yes" name="donation" value="yes" checked>
-            <label for="donation_yes">Yes</label>
-            <input type="radio" id="donation_no" name="donation" value="no">
-            <label for="donation_no">No</label>
+            <label>Round up for donation?</label>
+            <input for="donation_yes" type="radio" id="donation_yes" name="donation" value="yes" checked>Yes</input>
+            <br>
+            <input for="donation_no" type="radio" id="donation_no" name="donation" value="no">No</input>
+
         </fieldset>
 
         <input type="submit" name="purchase" value="Purchase">

@@ -33,13 +33,13 @@
         $email = $_POST['email'];
         $tax_rate = 0.06;
         $tax = number_format($subtotal * $tax_rate, 2);
-
         $total = $subtotal + $tax;
 
         if ($donation === 'yes') {
             $rounded_total = number_format(ceil($total), 2);
+            $donation_amount = $rounded_total - $total;
         } else {
-            $rounded_total = number_format($total, 2);
+            $donation_amount = 0.00;
         }
 
         
@@ -96,7 +96,7 @@
             <?php endforeach ?>
 
             <?php if ($flag == False):
-                addOrder($conn,$product,$customer_id,$quantity,$product_price,$tax,$donation,$timestamp);
+                addOrder($conn,$product,$customer_id,$quantity,$product_price,$tax,$donation_amount,$timestamp);
 
                 $result = getProduct($conn, $product);
                 $row = mysqli_fetch_row($result);
