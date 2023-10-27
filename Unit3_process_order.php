@@ -82,57 +82,61 @@
         }
 
         date_default_timezone_set("America/Denver");
-        $timestamp = strtotime(date("m/d/y h:i A"));
-
+        $timestamp = $_POST['timestamp'];
+        
         $result = printOrders($conn); 
-        if ($result):
-            foreach($result as $row):
-                $db_timestamp = $row[7];
-                if ($db_timestamp != $timestamp):
-                    
+        $flag = False;
+        if ($result): ?>
+            <?php foreach($result as $row):
+                $db_timestamp = $row['timestamp'];
+                if ($timestamp == $db_timestamp){
+                    $flag = True;
+                }
+            ?>
+            <?php endforeach ?>
 
-                    addOrder($conn,$product,$customer_id,$quantity,$product_price,$tax,$donation,$timestamp);
-                    
-                    $result = getProduct($conn, $product);
-                    $row = mysqli_fetch_row($result);
-                    $phone_name = $row[1];
-                    $old_quantity = $row[4];
+            <?php if ($flag == False):
+                addOrder($conn,$product,$customer_id,$quantity,$product_price,$tax,$donation,$timestamp);
 
-                    if ($result && ($old_quantity - $quantity >= 0)): 
-                        sellProduct($conn, $quantity, $product);
-                        ?>
+                $result = getProduct($conn, $product);
+                $row = mysqli_fetch_row($result);
+                $phone_name = $row[1];
+                $old_quantity = $row[4];
 
-                    <?php else:
-                        sellProduct($conn, $old_quantity, $product);
-                        ?>
-                    <?php endif;
-
+                if ($result && ($old_quantity - $quantity >= 0)): 
+                    sellProduct($conn, $quantity, $product);
                     ?>
 
-                    <p><strong>Hello <?php echo $first_name; ?> <?php echo $last_name; ?> - </strong><?php echo $msg; ?></p>
-                    <p>We hope you enjoy your <?php echo $product_name; ?> puzzle!</p>
-                    <br>
-                    <p><u> Order details: </u></p>
-                    <p><?php echo $quantity; ?> @ $<?php echo $product_price; ?>: $<?php echo $subtotal; ?></p>
-                    <p>Tax (<?php echo $tax_rate * 100; ?>%): $<?php echo $tax; ?></p>
+                <?php else:
+                    sellProduct($conn, $old_quantity, $product);
+                    ?>
+                <?php endif;
+                ?>
+            <?php endif ?>
 
-                    <?php
-                        if ($donation === 'yes'):
-                        ?>
-                            <p><strong>Subtotal:</strong> $<?php echo $total; ?></p>
-                            <p><strong>Total with donation:</strong> $<?php echo $rounded_total; ?></p>
-
-                        <?php else: 
-                            $rounded_total = $total;
-                            ?>
-                            <p><strong>Total:</strong> $<?php echo $rounded_total; ?></p>
-                        <?php endif;
-                        ?>
-                    <br>
-                    <p>We'll send special offers to <?php echo $email; ?></p>
-                <?php endif ?>
-            <?php endforeach ?>
         <?php endif ?>
+
+        <p><strong>Hello <?php echo $first_name; ?> <?php echo $last_name; ?> - </strong><?php echo $msg; ?></p>
+        <p>We hope you enjoy your <?php echo $product_name; ?> phone!</p>
+        <br>
+        <p><u> Order details: </u></p>
+        <p><?php echo $quantity; ?> @ $<?php echo $product_price; ?>: $<?php echo $subtotal; ?></p>
+        <p>Tax (<?php echo $tax_rate * 100; ?>%): $<?php echo $tax; ?></p>
+
+        <?php
+            if ($donation === 'yes'):
+            ?>
+                <p><strong>Subtotal:</strong> $<?php echo $total; ?></p>
+                <p><strong>Total with donation:</strong> $<?php echo $rounded_total; ?></p>
+
+            <?php else: 
+                $rounded_total = $total;
+                ?>
+                <p><strong>Total:</strong> $<?php echo $rounded_total; ?></p>
+            <?php endif;
+            ?>
+        <br>
+        <p>We'll send special offers to <?php echo $email; ?></p>
 
     </main>
     <?php include 'Unit3_footer.php'; ?>

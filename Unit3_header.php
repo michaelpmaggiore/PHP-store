@@ -11,8 +11,12 @@
 </head>
 <body>
     <nav class="topnav" id="menus">
+        <a href="Unit3_store.php">Home</a>
         <a href="Unit3_store.php">Phones</a>
         <a href="Unit3_store.php">Phone Services</a>
+        <div class="topnav-right">
+            <a href="Unit3_dbQueries.php">Admin</a>
+        </div>
     </nav>
     <header>
         <h1>Happy Phone</h1>
