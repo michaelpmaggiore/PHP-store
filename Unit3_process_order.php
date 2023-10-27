@@ -5,6 +5,8 @@
     <title>Order Confirmation</title>
     <link rel="stylesheet" type="text/css" href="Unit3_common.css">
     <link rel="stylesheet" type="text/css" href="Unit3_store.css">
+    <link rel="stylesheet" type="text/css" href="Unit3_process_order.css">
+
 </head>
 <body>
 
@@ -36,7 +38,7 @@
         $total = $subtotal + $tax;
 
         if ($donation === 'yes') {
-            $rounded_total = number_format(ceil($total), 2);
+            $rounded_total = ceil($total);
             $donation_amount = $rounded_total - $total;
         } else {
             $donation_amount = 0.00;
@@ -115,28 +117,29 @@
             <?php endif ?>
 
         <?php endif ?>
+        <div class="receipt">
+            <p><strong>Hello <?php echo $first_name; ?> <?php echo $last_name; ?> - </strong><?php echo $msg; ?></p>
+            <p>We hope you enjoy your <?php echo $product_name; ?> phone!</p>
+            <br>
+            <p><u> Order details: </u></p>
+            <p><?php echo $quantity; ?> @ $<?php echo $product_price; ?>: $<?php echo $subtotal; ?></p>
+            <p>Tax (<?php echo $tax_rate * 100; ?>%): $<?php echo $tax; ?></p>
 
-        <p><strong>Hello <?php echo $first_name; ?> <?php echo $last_name; ?> - </strong><?php echo $msg; ?></p>
-        <p>We hope you enjoy your <?php echo $product_name; ?> phone!</p>
-        <br>
-        <p><u> Order details: </u></p>
-        <p><?php echo $quantity; ?> @ $<?php echo $product_price; ?>: $<?php echo $subtotal; ?></p>
-        <p>Tax (<?php echo $tax_rate * 100; ?>%): $<?php echo $tax; ?></p>
-
-        <?php
-            if ($donation === 'yes'):
-            ?>
-                <p><strong>Subtotal:</strong> $<?php echo $total; ?></p>
-                <p><strong>Total with donation:</strong> $<?php echo $rounded_total; ?></p>
-
-            <?php else: 
-                $rounded_total = $total;
+            <?php
+                if ($donation === 'yes'):
                 ?>
-                <p><strong>Total:</strong> $<?php echo $rounded_total; ?></p>
-            <?php endif;
-            ?>
-        <br>
-        <p>We'll send special offers to <?php echo $email; ?></p>
+                    <p><strong>Subtotal:</strong> $<?php echo $total; ?></p>
+                    <p><strong>Total with donation:</strong> $<?php echo $rounded_total; ?></p>
+
+                <?php else: 
+                    $rounded_total = $total;
+                    ?>
+                    <p><strong>Total:</strong> $<?php echo $rounded_total; ?></p>
+                <?php endif;
+                ?>
+            <br>
+            <p>We'll send special offers to <?php echo $email; ?></p>
+        </div>
 
     </main>
     <?php include 'Unit3_footer.php'; ?>

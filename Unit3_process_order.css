@@ -1,0 +1,27 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+}
+
+.receipt {
+    background-color: #ffdd81;
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 5px dotted black;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.receipt p {
+    margin: 0;
+}
+
+.receipt strong {
+    font-weight: bold;
+}
+
+.receipt u {
+    text-decoration: underline;
+}

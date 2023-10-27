@@ -34,7 +34,7 @@ CREATE TABLE orders (
 );
 
 INSERT INTO customer (first_name, last_name, email)
-VALUES ("Micky", "Mouse", "mmouse@mines.edu");
+VALUES ("Mickey", "Mouse", "mmouse@mines.edu");
 
 INSERT INTO customer (first_name, last_name, email)
 VALUES ("Donald", "Duck", "dduck@mines.edu");
